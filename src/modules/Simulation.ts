@@ -10,8 +10,8 @@ export default class Simulation {
     public field: number[][];
 
     constructor(ctx: CanvasRenderingContext2D) {
-        this.draw = new Draw(ctx)
         this.ctx = ctx
+        this.draw = new Draw(ctx)
         this.ctx.canvas.width = window.innerWidth
         this.ctx.canvas.height = window.innerHeight
         this.width = window.innerWidth
@@ -52,20 +52,28 @@ export default class Simulation {
     render() {
         this.renderAgents()
         const t = this.getTime()
-        this.renderPheromone()
+        // this.renderPheromone()
         console.log(this.getTime() - t)
     }
 
     update() {
-        this.draw.fillScreen('black')
+        this.draw.fillScreen('rgba(0, 0, 0, 0.04)')
         this.render()
         requestAnimationFrame(() => this.update())
     }
 
     init() {
         this.field = this.initField(this.width, this.height, 0)
-        for (let i = 0; i < 10000; i++) {
-            this.agents.push(new Agent(this.getRandomValue(this.width), this.getRandomValue(this.height)))
+        for (let i = 0; i < 100; i++) {
+            this.agents.push(
+                new Agent(
+                    this.getRandomValue(this.width),
+                    this.getRandomValue(this.height),
+                    this.getRandomValue(3, -3),
+                    this.getRandomValue(3, -3),
+                    this
+                )
+            )
         }
     }
 
